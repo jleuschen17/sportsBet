@@ -21,7 +21,6 @@ client = gspread.authorize(creds)
 # creds, _ = default()
 # gc = gspread.authorize(creds)
 
-openai.api_key = "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"
 pwords = {'jshiesty' : 'Q9xt2ipwtv'}
 inputTxt = ""
 outputTxt = ""
