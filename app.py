@@ -21,7 +21,7 @@ client = gspread.authorize(creds)
 # creds, _ = default()
 # gc = gspread.authorize(creds)
 
-openai.api_key = "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"
+openai.api_key = "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"
 pwords = {'jshiesty' : 'Q9xt2ipwtv'}
 inputTxt = ""
 outputTxt = ""
@@ -104,6 +104,14 @@ server = app.server
 
 app.layout = html.Div([
     html.H1('jshiestys sportsbook', style={'text-align' : 'center'}),
+
+    html.H5('key', style={'text-align' : 'left'}),
+
+    dcc.Input(id='key', type='text', debounce=True,
+              multiple=False, style={'marginRight' : '10px', },
+              placeholder=''),
+
+    html.Br(),
 
     html.H5('user', style={'text-align' : 'left'}),
 
@@ -213,10 +221,15 @@ app.layout = html.Div([
     Input('spread', 'value'),
     Input('line', 'value'),
     Input('overUnder', 'value'),
+    Input('key', 'value')
 )
 
-def update(user, pw, locks, clicks, style, price, margin, sport, clicks2, spread, line, overUnder):
+def update(user, pw, locks, clicks, style, price, margin, sport, clicks2, spread, line, overUnder, key):
     status = checkStatus(user, pw, locks, clicks, style, price, margin, sport, clicks2)
+    if key:
+        openai.api_key = key
+    else:
+        return ["please enter a key", status]
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name('python-sheets-2-357617-873449e7f558 (1).json', scope)
     client = gspread.authorize(creds)
